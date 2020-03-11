@@ -1,0 +1,136 @@
+// This is a manifest file that'll be compiled into application.js, which will include all the files
+// listed below.
+//
+// Any JavaScript/Coffee file within this directory, lib/assets/javascripts, vendor/assets/javascripts,
+// or vendor/assets/javascripts of plugins, if any, can be referenced here using a relative path.
+//
+// It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
+// compiled file.
+//
+// Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
+// about supported directives.
+//
+// = require jquery
+// = require jquery-ui
+// = require jquery_ujs
+// = require bootstrap
+// = require ./libs/jquery.sticky
+// = require ./libs/jquery.fancybox.min
+// = require ./libs/selectivizr.js
+// = require_self
+// = require ./account/libraries
+// = require ./libs/respond.min
+
+$.widget.bridge('uibutton', $.ui.button);
+$.widget.bridge('uitooltip', $.ui.tooltip);
+
+$.ajaxSetup({
+  headers: {
+    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+  }
+});
+
+// Fancybox
+  $(".fancybox").fancybox({
+    maxWidth  : 300,
+    maxHeight : 600,
+    fitToView : false,
+    width   : '70%',
+    height    : '70%',
+    autoSize  : false,
+    closeClick  : false,
+    openEffect  : 'none',
+    closeEffect : 'none',
+    onUpdate    : function(){
+      $.fancybox.update();
+    }
+  });
+
+$(document).ready(function() {
+  $.each($(".pop-message"), function(index, value) {
+    html = $(value).show().parent().html()
+    $(value).remove()
+    $.fancybox({
+      content : html,
+      modal: true,
+      openEffect : 'none',
+      afterShow: function () {
+      },
+      afterClose: function () {
+      }
+    });
+  })
+});
+
+function display_loader() {
+  $.fancybox.showLoading()
+}
+
+function hide_loader() {
+  $.fancybox.hideLoading()
+}
+
+function display_success(message) {
+  var timer = null;
+  $.fancybox({
+      content : "<div class='pop-message'><i class='fa fa-check'></i>" + message,
+      modal: true,
+      openEffect : 'none',
+      onUpdate : function(){
+        $.fancybox.update();
+      },
+      afterShow: function () {
+          timer = setTimeout(function () {
+              $.fancybox.close();
+          }, 2500);
+      },
+      afterClose: function () {
+          clearTimeout(timer);
+      }
+  });
+  return false;
+}
+
+function display_fancybox(content) {
+  $.fancybox.open(
+    content,
+    {
+      maxWidth  : 300,
+      maxHeight : 600,
+      fitToView : false,
+      width   : '70%',
+      height    : '70%',
+      autoSize  : false,
+      closeClick  : false,
+      openEffect  : 'none',
+      closeEffect : 'none',
+    })
+}
+
+$( document ).ready(function() {
+  $('[data-toggle="tooltip"]').tooltip({
+   animated : 'fade',
+   container: 'body'
+  });
+  
+  // Simple show and hide elements function
+  $('.targetDiv').hide();
+  $("body").on("click", ".display", function(){
+    $('#div-' + $(this).attr('target')).toggle();
+    $(this).toggleClass('active')
+  });
+
+  // Show and hide elements function with chevron switching in and out
+  $('.targetDiv-chevron').hide();
+  $("body").on("click", ".display-chevron", function(){
+    $('#chevron-div-' + $(this).attr('target')).slideToggle(0);
+    $(this).find('i').toggleClass('fa-chevron-up')
+  });
+
+  // Disable links if they have a class of 'disabled-action-true'
+  $('.disabled-action').on('click',function(e) {
+    if ($(this).hasClass("disabled-action-true")) {
+      return false;
+    }
+  })
+})

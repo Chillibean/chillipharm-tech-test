@@ -1,0 +1,87 @@
+
+$( document ).ready(function() {
+  $(".asset").mouseover(function() {
+    $(this).addClass("hover")
+  })
+
+  $(".asset").mouseleave(function() {
+    $(this).removeClass("hover")
+  })
+
+  // Close fancybox if the user clicks 'cancel'
+  $("body").on("click", ".delete-contained-assets", function(){
+    $("#fancyb-step-one").hide()
+    $("#fancyb-step-two").show()
+  })
+
+  $("body").on("click", "#edit-asset-info", function(e) {
+    e.preventDefault()
+    $("#asset-info span:not(.no-edit)").hide()
+    $("#asset-info input, #asset-info textarea, #cancel-edit-asset-info, #save-edit-asset-info").show()
+    $(".hidden-infofield").toggleClass("hidden")
+    $(this).hide()
+  });
+
+  $("body").on("click", "#cancel-edit-asset-info", function(e) {
+    e.preventDefault()
+    $("#asset-info span, #edit-asset-info").show()
+    $("#asset-info input, #asset-info textarea, #save-edit-asset-info, .errors .inline-message.error").hide()
+    $(".mandatory").removeClass("error-field")
+    $(".hidden-infofield").toggleClass("hidden")
+    $(this).hide()
+  });
+
+  // Filter Libraries on the Library Dashboard
+  $("#library-search").keyup(function() {
+    search_value = $(this).val().toLowerCase().trim()
+
+    if (search_value == "") {
+      $("#libraries-list .library").show()
+    } else {
+      $("#libraries-list .library").each(function() {
+        library_name = $(this).find("a.dashboard-library-link").text().toLowerCase().trim()
+
+        if (library_name.indexOf(search_value) > -1) {
+          $(this).show()
+        } else {
+          $(this).hide()
+        }
+
+      })
+    }
+
+    if ($("#libraries-list .library:visible").length == 0) {
+      $(".no-libraries-found").show()
+    } else {
+      $(".no-libraries-found").hide()
+    }
+  })
+
+  // makes sure the clicked asset is selected during dragging
+  // also appends the number of selected assets to the drag icon helper
+  $(".asset, .tr-asset-content").on("dragstart", function(event, ui) {
+
+    $(".drag-asset").appendTo("body");
+
+    var $selected_grid_asset = $(event.currentTarget).children(".asset-content").first()
+    var $selected_list_asset = $(event.currentTarget).first()
+
+    if($selected_grid_asset.length > 0) {
+      if($selected_grid_asset.hasClass("ui-selected") == false) {
+        $selected_grid_asset.addClass("ui-selecting");
+        $(".ui-selected").removeClass("ui-selected");
+      }
+
+      if($(".content-section").length > 0) {
+        $(".content-section#assets.grid").data("ui-selectable")._mouseStop(null);
+      }
+
+      $(".drag-asset span").html($(".ui-selected").length)
+      $(".drag-asset img").attr("src", $selected_grid_asset.children("img").first().attr("src"))
+    } else if($selected_list_asset.length > 0) {
+      $(".drag-asset span").html($(".ui-selected").length)
+      $(".drag-asset img").attr("src", $selected_list_asset.find("img").first().attr("src"))
+    }
+  });
+
+})
