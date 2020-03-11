@@ -4,6 +4,8 @@ Welcome to the Chillibean Tech test.
 
 ## Setup
 
+Recommended Ruby version 2.6.3
+
 Ensure PostgreSQL is set up and running on your system.
 
 Install gems.
