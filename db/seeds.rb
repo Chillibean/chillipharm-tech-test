@@ -23,7 +23,7 @@ if Rails.env.eql?("development")
   # Asset 1
   video_asset_one = Asset.create(filename: "trial 106.mov", title: "Trial 106", filesize: 100.megabytes, file_type: Asset.file_types[:video], uploader: user_two, library: first_library, created_at: 2.weeks.ago)
 
-  AssetActivity.create({
+  Activity.create({
     action: "uploaded_asset",
     user_id: user_two.id,
     user_email: user_two.email,
@@ -43,7 +43,7 @@ if Rails.env.eql?("development")
 
   comment = video_asset_one.comments.build(comment: "Evaluators comments", author: user_two)
   comment.save
-  AssetActivity.create({
+  Activity.create({
     action: "commented_on_asset",
     user_id: user_two.id,
     user_email: user_two.email,
@@ -62,7 +62,7 @@ if Rails.env.eql?("development")
 
   comment = video_asset_one.comments.build(comment: "Evaluators comments reply", author: user_three)
   comment.save
-  AssetActivity.create({
+  Activity.create({
     action: "commented_on_asset",
     user_id: user_three.id,
     user_email: user_three.email,
@@ -82,7 +82,7 @@ if Rails.env.eql?("development")
   # Asset 2
   video_asset_two = Asset.create(filename: "trial 107.mov", title: "Trial 107", filesize: 100.megabytes, file_type: Asset.file_types[:video], uploader: user_two, library: first_library, created_at: 1.weeks.ago)
 
-  AssetActivity.create({
+  Activity.create({
     action: "uploaded_asset",
     user_id: user_two.id,
     user_email: user_two.email,
@@ -102,7 +102,7 @@ if Rails.env.eql?("development")
 
   comment = video_asset_two.comments.build(comment: "Evaluators comments", author: user_two)
   comment.save
-  AssetActivity.create({
+  Activity.create({
     action: "commented_on_asset",
     user_id: user_two.id,
     user_email: user_two.email,
@@ -121,7 +121,7 @@ if Rails.env.eql?("development")
 
   comment = video_asset_two.comments.build(comment: "Evaluators comments reply", author: user_three)
   comment.save
-  AssetActivity.create({
+  Activity.create({
     action: "commented_on_asset",
     user_id: user_three.id,
     user_email: user_three.email,
@@ -141,7 +141,7 @@ if Rails.env.eql?("development")
   # Asset 3
   image_asset = Asset.create(filename: "image.jpg", title: "MRI 003", filesize: 2.megabytes, file_type: Asset.file_types[:image], uploader: user_two, library: first_library, created_at: 4.days.ago)
 
-  AssetActivity.create({
+  Activity.create({
     action: "uploaded_asset",
     user_id: user_two.id,
     user_email: user_two.email,
@@ -162,7 +162,7 @@ if Rails.env.eql?("development")
   # Asset 4
   audio_asset = Asset.create(filename: "audio file.mp3", title: "Audio Recording 1", filesize: 20.megabytes, file_type: Asset.file_types[:audio], uploader: user_two, library: first_library, created_at: 3.days.ago)
 
-  AssetActivity.create({
+  Activity.create({
     action: "uploaded_asset",
     user_id: user_two.id,
     user_email: user_two.email,
@@ -183,7 +183,7 @@ if Rails.env.eql?("development")
   # Asset 5
   document_asset_one = Asset.create(filename: "patient A report.pdf", title: "Report of Patient A", filesize: 7.megabytes, file_type: Asset.file_types[:document], uploader: user_two, library: first_library, created_at: 2.days.ago)
 
-  AssetActivity.create({
+  Activity.create({
     action: "uploaded_asset",
     user_id: user_two.id,
     user_email: user_two.email,
@@ -204,7 +204,7 @@ if Rails.env.eql?("development")
   # Asset 6
   document_asset_two = Asset.create(filename: "patient B report.pdf", title: "Report of Patient B", filesize: 8.megabytes, file_type: Asset.file_types[:document], uploader: user_two, library: first_library, created_at: 1.day.ago)
 
-  AssetActivity.create({
+  Activity.create({
     action: "uploaded_asset",
     user_id: user_two.id,
     user_email: user_two.email,
@@ -224,7 +224,7 @@ if Rails.env.eql?("development")
 
   comment = document_asset_two.comments.build(comment: "Comment one", author: user_one)
   comment.save
-  AssetActivity.create({
+  Activity.create({
     action: "commented_on_asset",
     user_id: user_one.id,
     user_email: user_one.email,
@@ -244,7 +244,7 @@ if Rails.env.eql?("development")
   # Asset 7
   unkown_asset = Asset.create(filename: "presentation.ppx", title: "ChilliPharm Presentation", filesize: 5.megabytes, file_type: Asset.file_types[:unknown], uploader: user_two, library: first_library, created_at: 5.weeks.ago)
 
-  AssetActivity.create({
+  Activity.create({
     action: "uploaded_asset",
     user_id: user_two.id,
     user_email: user_two.email,
@@ -265,7 +265,7 @@ if Rails.env.eql?("development")
   # Asset 8
   video_asset_three = Asset.create(filename: "trial 109.mov", title: "Trial 109", filesize: 107.megabytes, file_type: Asset.file_types[:video], uploader: user_two, library: second_library, created_at: 1.weeks.ago)
 
-  AssetActivity.create({
+  Activity.create({
     action: "uploaded_asset",
     user_id: user_two.id,
     user_email: user_two.email,

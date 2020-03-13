@@ -69,6 +69,19 @@
             <li role="presentation"><%= link_to "Title Z-A", sort_link(:title_desc, params[:filter], params[:search], "library", current_library), role: "menuitem", "data-filter-key" => "sort", "data-filter-value" => "title_desc" %></li>
           </ul>
         </div>
+        <div>
+          <%= form_tag searches_path, method: :post do %>
+          <div>
+            <p>Save your search</p>
+            <input type="text" name="name" placeholder="Enter a name for your search">
+            <input type="hidden" id="assets_ids" name="assets_ids" value=<%= @assets_ids %>>
+            <input type="hidden" id="user_id" name="user_id" value=<%= current_user.id %>>
+              <button type="submit" class="btn btn-default" type="button">Save</button>
+            </span>
+          </div>
+          <% end %>
+        </div>
+        <div><%= link_to "View your searches", searches_path %></div>
       </div>
     </div>
   </div>
