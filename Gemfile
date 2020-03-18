@@ -45,6 +45,7 @@ group :development, :test do
   gem 'rspec-json_expectations'
   gem 'faker', '~> 1.4.3'
   gem 'factory_girl_rails', '~> 4.5.0'
+  gem 'pry-rails'
 end
 
 group :test do

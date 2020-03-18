@@ -7,6 +7,7 @@ FactoryGirl.define do
     file_id "123456"
     file_type :video
     s3_name 'example/path/to/file.mp4'
+    sequence(:title) { |n| "Asset##{n}" }
 
     association :library
     association :uploader, factory: :user
