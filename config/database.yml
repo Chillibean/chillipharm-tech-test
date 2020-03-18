@@ -24,8 +24,8 @@ default: &default
 development:
   <<: *default
   database: chillipharmbasic_development
-  user: chillipharmbasic
-  password: chillipharmbasic
+  # user: chillipharmbasic
+  # password: chillipharmbasic
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -60,8 +60,8 @@ development:
 test:
   <<: *default
   database: chillipharmbasic_test
-  user: chillipharmbasic
-  password: chillipharmbasic
+  # user: chillipharmbasic
+  # password: chillipharmbasic
 
 # Do not keep production credentials in the repository,
 # instead read the configuration from the environment.
