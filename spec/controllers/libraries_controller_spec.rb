@@ -17,7 +17,51 @@ RSpec.describe LibrariesController, :type => :controller do
 
         get :show, params: { id: @library.id }
 
-        expect(assigns[:assets].collect{|a| a.id}).to eql(@library.assets.order(created_at: :desc).collect{|a| a.id})
+        expect(assigns[:assets].collect{|a| a.id }).to eql(@library.assets.order(created_at: :desc).collect{|a| a.id})
+      end
+    end
+
+    context "with search" do
+      it "assigns all @assets for shared keyword" do
+        assets = create_list(:asset, 5, library: @library, uploader: @user)
+
+        get :show, params: { id: @library.id, search: 'set#' }
+
+        expect(assigns[:assets].collect{|a| a.id }).to eql(@library.assets.order(created_at: :desc).collect{|a| a.id})
+      end
+
+      it "assigns all @assets for shared keyword with wrong case" do
+        assets = create_list(:asset, 5, library: @library, uploader: @user)
+
+        get :show, params: { id: @library.id, search: 'sET#' }
+
+        expect(assigns[:assets].collect{|a| a.id }).to eql(@library.assets.order(created_at: :desc).collect{|a| a.id})
+      end
+
+      it "@assets are empty for wrong keyword" do
+        assets = create_list(:asset, 5, library: @library, uploader: @user)
+
+        get :show, params: { id: @library.id, search: 'sEEE#' }
+
+        expect(assigns[:assets].collect{|a| a.id }).to eql([])
+      end
+
+      it "@assets contains proper element" do
+        assets = create_list(:asset, 5, library: @library, uploader: @user)
+        asset_to_select = assets.last
+
+        get :show, params: { id: @library.id, search: asset_to_select.title[3..-1] }
+
+        expect(assigns[:assets].collect{|a| a.id }).to eql([asset_to_select.id])
+      end
+
+      it "@assets contains proper element even with wrong case" do
+        assets = create_list(:asset, 5, library: @library, uploader: @user)
+        asset_to_select = assets.last
+
+        get :show, params: { id: @library.id, search: asset_to_select.title[3..-1].upcase }
+
+        expect(assigns[:assets].collect{|a| a.id }).to eql([asset_to_select.id])
       end
     end
 

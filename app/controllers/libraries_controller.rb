@@ -1,6 +1,11 @@
 class LibrariesController < ApplicationController
   def show
+    @search = params[:search]
+    @search = nil if @search.to_s.strip == ''
+
     @assets = Asset.where(library_id: current_library.id)
+
+    @assets = @assets.where('title ILIKE ?', "%#{@search}%") if @search
   end
 
   def index
