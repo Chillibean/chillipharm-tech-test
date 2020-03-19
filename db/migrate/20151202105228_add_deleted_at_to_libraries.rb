@@ -1,4 +1,4 @@
-class AddDeletedAtToLibraries < ActiveRecord::Migration
+class AddDeletedAtToLibraries < ActiveRecord::Migration[5.2]
   def change
     add_column :libraries, :deleted_at, :Time
   end
