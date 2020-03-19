@@ -1,4 +1,4 @@
-class AddUploaderIdToAssets < ActiveRecord::Migration
+class AddUploaderIdToAssets < ActiveRecord::Migration[5.2]
   def change
     add_column :assets, :uploader_id, :integer
 

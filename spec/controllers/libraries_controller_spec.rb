@@ -132,5 +132,27 @@ RSpec.describe LibrariesController, :type => :controller do
       end
     end
 
+    describe "GET with saved search" do
+      before :each do
+      end
+
+      it "saved search applied overriding selceted params" do
+        @library = create(:library)
+        Asset.file_types.keys.each do |ft|
+          create_list(:asset, 3, library: @library, uploader: @user, file_type: ft)
+        end
+
+        @saved_search = @library.saved_searches.create name: 'The search', keyword: 'the key', filter: 'video', sort: 'title_asc'
+
+        get :show, params: { id: @library.id, sort: 'created_at_desc', search: 'the search', filter: 'audio', saved_search_id: @saved_search.id }
+
+        expect(assigns[:search]).to eql('the key')
+        expect(assigns[:filter]).to eql('video')
+        expect(assigns[:sort]).to eql('title_asc')
+        expect(assigns[:saved_search].id).to eql(@saved_search.id)
+      end
+
+    end
+
   end
 end
