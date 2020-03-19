@@ -6,7 +6,6 @@ Rails.application.routes.draw do
     member do
       get :info
     end
-
     resources :assets do
       resources :comments
 
@@ -15,5 +14,6 @@ Rails.application.routes.draw do
         delete :delete
       end
     end
+    resources :saved_searches, only: [:create, :destroy], shallow: true
   end
 end

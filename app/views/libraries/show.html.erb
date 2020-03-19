@@ -44,65 +44,97 @@
 <div class="content-section clearfix">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-xs-12">
+      <div class="col-xs-12 col-lg-8">
         <div class="dropdown filter-actions">
           <span>Filter By: </span>
           <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-            <%= current_filter_label(params[:filter]) %>
+            <%= current_filter_label(@filter) %>
           </a>
           <ul class="dropdown-menu change-value dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu">
-            <li role="presentation"><%= link_to "All File Types", filter_link("all", params[:sort], params[:search], "library", current_library), role: "menuitem", "data-filter-key" => "filter", "data-filter-value" => "all" %></li>
-            <li role="presentation"><%= link_to "Video Only", filter_link("video", params[:sort], params[:search], "library", current_library), role: "menuitem", "data-filter-key" => "filter", "data-filter-value" => "video" %></li>
-            <li role="presentation"><%= link_to "Audio Only", filter_link("audio", params[:sort], params[:search], "library", current_library), role: "menuitem", "data-filter-key" => "filter", "data-filter-value" => "audio" %></li>
-            <li role="presentation"><%= link_to "Images Only", filter_link("image", params[:sort], params[:search], "library", current_library), role: "menuitem", "data-filter-key" => "filter", "data-filter-value" => "image" %></li>
+            <li role="presentation"><%= link_to "All File Types", filter_link("all", @sort, @search, "library", current_library), role: "menuitem", "data-filter-key" => "filter", "data-filter-value" => "all" %></li>
+            <li role="presentation"><%= link_to "Video Only", filter_link("video", @sort, @search, "library", current_library), role: "menuitem", "data-filter-key" => "filter", "data-filter-value" => "video" %></li>
+            <li role="presentation"><%= link_to "Audio Only", filter_link("audio", @sort, @search, "library", current_library), role: "menuitem", "data-filter-key" => "filter", "data-filter-value" => "audio" %></li>
+            <li role="presentation"><%= link_to "Images Only", filter_link("image", @sort, @search, "library", current_library), role: "menuitem", "data-filter-key" => "filter", "data-filter-value" => "image" %></li>
           </ul>
         </div>
         <div class="dropdown filter-actions">
           <span>Sort By: </span>
           <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-            <%= current_sort_label(params[:sort]) %>
+            <%= current_sort_label(@sort) %>
           </a>
           <ul class="dropdown-menu change-value dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu">
-            <li role="presentation"><%= link_to "Most Recent", sort_link(:created_at_desc, params[:filter], params[:search], "library", current_library), role: "menuitem", "data-filter-key" => "sort", "data-filter-value" => "created_at_desc" %></li>
-            <li role="presentation"><%= link_to "Oldest", sort_link(:created_at_asc, params[:filter], params[:search], "library", current_library), role: "menuitem", "data-filter-key" => "sort", "data-filter-value" => "created_at_asc" %></li>
-            <li role="presentation"><%= link_to "Title A-Z", sort_link(:title_asc, params[:filter], params[:search], "library", current_library), role: "menuitem", "data-filter-key" => "sort", "data-filter-value" => "title_asc" %></li>
-            <li role="presentation"><%= link_to "Title Z-A", sort_link(:title_desc, params[:filter], params[:search], "library", current_library), role: "menuitem", "data-filter-key" => "sort", "data-filter-value" => "title_desc" %></li>
+            <li role="presentation"><%= link_to "Most Recent", sort_link(:created_at_desc, @filter, @search, "library", current_library), role: "menuitem", "data-filter-key" => "sort", "data-filter-value" => "created_at_desc" %></li>
+            <li role="presentation"><%= link_to "Oldest", sort_link(:created_at_asc, @filter, @search, "library", current_library), role: "menuitem", "data-filter-key" => "sort", "data-filter-value" => "created_at_asc" %></li>
+            <li role="presentation"><%= link_to "Title A-Z", sort_link(:title_asc, @filter, @search, "library", current_library), role: "menuitem", "data-filter-key" => "sort", "data-filter-value" => "title_asc" %></li>
+            <li role="presentation"><%= link_to "Title Z-A", sort_link(:title_desc, @filter, @search, "library", current_library), role: "menuitem", "data-filter-key" => "sort", "data-filter-value" => "title_desc" %></li>
           </ul>
         </div>
+      </div>
+      <div class="col-xs-12 col-lg-4">
+        <% unless @new_saved_search.nil? %>
+          <%= form_for [current_library, @new_saved_search], html: { class: 'form-inline' }, id: 'new_saved_search_form' do |f| %>
+            <%= f.text_field :name, class: 'form-control', placeholder: 'Name your search to save' %>
+            <%= f.hidden_field :keyword %>
+            <%= f.hidden_field :sort %>
+            <%= f.hidden_field :filter %>
+            <%= f.submit 'Save search', class: 'btn btn-info' %>
+          <% end %>
+        <% end %>
+        <% if @saved_search %>
+          <h2>
+            <span class="small">Saved: </span>
+            <%= @saved_search.name %>
+          </h3>
+        <% end %>
       </div>
     </div>
   </div>
 </div>
-<% if @assets.any? %>
-  <% if params['display_assets'].eql?('display_assets_as_list') %>
-    <%= render 'list_view' %>
-  <% else %>
-    <%= render 'grid_view' %>
-  <% end %>
-<% elsif params[:search].present? || params[:search_fields].present? || params[:filter].present? %>
-  <div id="assets" class="content-section">
-    <div class="row no-marg">
-      <div class="col-md-6 col-md-offset-3">
-        <div class="well placeholder">
-          <h4>No Search Results</h4>
-          <p>Your search returned no results, please try an alternative search.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-<% else %>
-  <div id="content-section-wrap">
-    <div id="assets" class="content-section">
-      <div class="container-fluid">
-        <div class="row">
+<div class="row">
+  <div class="col-xs-12 col-lg-8">
+    <% if @assets.any? %>
+      <% if params['display_assets'].eql?('display_assets_as_list') %>
+        <%= render 'list_view' %>
+      <% else %>
+        <%= render 'grid_view' %>
+      <% end %>
+    <% elsif params[:search].present? || params[:search_fields].present? || params[:filter].present? %>
+      <div id="assets" class="content-section">
+        <div class="row no-marg">
           <div class="col-md-6 col-md-offset-3">
             <div class="well placeholder">
-              <h3>Welcome to Your New Library!</h3>
-              <p>To get started, upload content using the bar above, then organize it into collections using the menu on the left.</p>
+              <h4>No Search Results</h4>
+              <p>Your search returned no results, please try an alternative search.</p>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    <% else %>
+      <div id="content-section-wrap">
+        <div id="assets" class="content-section">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-6 col-md-offset-3">
+                <div class="well placeholder">
+                  <h3>Welcome to Your New Library!</h3>
+                  <p>To get started, upload content using the bar above, then organize it into collections using the menu on the left.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
   </div>
-<% end %>
+  <div class="col-xs-12 col-lg-4">
+    <h3>Saved searches:</h3>
+    <table class="table">
+      <% current_library.saved_searches.order(:name).each do |s| %>
+        <tr>
+          <td id="saved_search_#{s.id}"><%= link_to s.name, library_url(current_library, saved_search_id: s.id) %></td>
+          <td class="text-right"><%= link_to 'Delete', saved_search_url(s), data: { method: :delete, confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

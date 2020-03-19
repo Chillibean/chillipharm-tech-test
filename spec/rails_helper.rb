@@ -45,7 +45,7 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema!
 
-RSpec.configure do |config|  
+RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include EmailSpec::Helpers
   config.include EmailSpec::Matchers
@@ -98,9 +98,9 @@ RSpec.configure do |config|
 
   config.before(:each) do |example|
     if Capybara.current_driver != :rack_test
-      Capybara.app_host = "http://example.com"
+      Capybara.app_host = "http://www.example.com"
     else
-      Capybara.app_host = "http://example.com"
+      Capybara.app_host = "http://www.example.com"
     end
 
     if example.metadata[:uploads] || example.metadata[:multi_session]
